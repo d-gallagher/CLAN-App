@@ -10,11 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace App_titude1
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MainMenu : ContentPage
+	public partial class MainMenu : NavigationPage
 	{
 		public MainMenu ()
 		{
-			InitializeComponent ();
+			//InitializeComponent ();
 		}
 	}
 }
