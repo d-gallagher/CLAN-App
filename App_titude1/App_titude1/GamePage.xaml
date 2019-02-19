@@ -12,42 +12,41 @@
                 
             <Button x:Name="bntColourTL" Grid.Row="0" Text="XXXXXX" HorizontalOptions="Start" WidthRequest="150" BackgroundColor="Teal"/>
                 <Label x:Name="lblLetterPrompt"
-                   Text="XISNFX" Grid.Row="0" 
-                   FontSize="30"
-                   HorizontalOptions="Center" 
-                   VerticalOptions="Center" 
-                   BackgroundColor="Teal"/>
+                       Text="XISNFX" Grid.Row="0" 
+                       FontSize="30"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" 
+                       BackgroundColor="Teal"
+                       IsVisible="True"/>
                 <Button x:Name="bntColourTR" Grid.Row="0" Text="XXXXXX" HorizontalOptions="End" WidthRequest="150" BackgroundColor="Teal"/>
 
 
-            <Grid x:Name="gridGamesKeypad" Grid.Row="1" >
+            <Grid x:Name="gridGamesRight" Grid.Row="1" IsEnabled="True" IsVisible="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Grid x:Name="gridCGame" Grid.Column="0" BackgroundColor="Black" >
+                <Grid x:Name="gridCGameRight" Grid.Column="0" BackgroundColor="Black" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="9*"/>
                     </Grid.ColumnDefinitions>
                     <!-- use frames instead of buttons, use tapped events instead of clicks,  --> 
-                    <Frame Grid.Column="0" BackgroundColor="Black" >
-                      <!--  <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                        </Frame.GestureRecognizers> -->
+                    <Frame Grid.Column="4" BackgroundColor="Black" >
+           
                     </Frame>
                    <!-- <Button Grid.Column="1" BackgroundColor="Red" Padding="0"/> 
                         <Button Grid.Column="2" BackgroundColor="Yellow" Padding="0"/>
                         <Button Grid.Column="3" BackgroundColor="Green" Padding="0" />
                     -->
-                    <Frame Grid.Column="1" BackgroundColor="Red" Padding="0">
+                    <Frame Grid.Column="3" BackgroundColor="Red" Padding="0">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="RED_TapGestureRecognizer_Tapped" />
                         </Frame.GestureRecognizers>
@@ -57,13 +56,13 @@
                             <TapGestureRecognizer Tapped="YELLOW_TapGestureRecognizer_Tapped" />
                         </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="3" BackgroundColor="Green" Padding="0">
+                    <Frame Grid.Column="1" BackgroundColor="Green" Padding="0">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="GREEN_TapGestureRecognizer_Tapped" />
                         </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame Grid.Column="4" BackgroundColor="Black" />
+                    <Frame Grid.Column="0" BackgroundColor="Black" />
                 </Grid>
 
                 <Grid x:Name="gridCalcRight" 
@@ -100,7 +99,85 @@
                 </Grid>
 
             </Grid>
-                
+
+            <Grid x:Name="gridGamesLeft" Grid.Row="1" IsEnabled="False" IsVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid x:Name="gridCGameLeft" Grid.Column="1" BackgroundColor="Black" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- use frames instead of buttons, use tapped events instead of clicks,  -->
+                    <Frame Grid.Column="0" BackgroundColor="Black" >
+            
+                    </Frame>
+                    <!-- <Button Grid.Column="1" BackgroundColor="Red" Padding="0"/> 
+                        <Button Grid.Column="2" BackgroundColor="Yellow" Padding="0"/>
+                        <Button Grid.Column="3" BackgroundColor="Green" Padding="0" />
+                    -->
+                    <Frame Grid.Column="1" BackgroundColor="Red" Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="RED_TapGestureRecognizer_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame Grid.Column="2" BackgroundColor="Yellow" Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="YELLOW_TapGestureRecognizer_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame Grid.Column="3" BackgroundColor="Green" Padding="0">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="GREEN_TapGestureRecognizer_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <Frame Grid.Column="4" BackgroundColor="Black" />
+                </Grid>
+
+                <Grid x:Name="gridCalcLeft" 
+                      BackgroundColor="Khaki" 
+                      HorizontalOptions="End"
+                      VerticalOptions="Center"
+                      Grid.Column="0"
+                      Margin="2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Text="7" Grid.Row="0" Grid.Column="0" Clicked="Btn7_Clicked"/>
+                    <Button Text="8" Grid.Row="0" Grid.Column="1" Clicked="Btn8_Clicked"/>
+                    <Button Text="9" Grid.Row="0" Grid.Column="2" Clicked="Btn9_Clicked"/>
+                    <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Btn4_Clicked"/>
+                    <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="Btn5_Clicked"/>
+                    <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="Btn6_Clicked"/>
+                    <Button Text="1" Grid.Row="2" Grid.Column="0" Clicked="Btn1_Clicked"/>
+                    <Button Text="2" Grid.Row="2" Grid.Column="1" Clicked="Btn2_Clicked"/>
+                    <Button Text="3" Grid.Row="2" Grid.Column="2" Clicked="Btn3_Clicked"/>
+                    <Button Text="CLR" Grid.Row="3" Grid.Column="2" Clicked="BtnCLR_Clicked" BackgroundColor="Red"/>
+                    <Button Text="0" Grid.Row="3" Grid.Column="1" Clicked="Btn0_Clicked"/>
+                    <Button Text="GO" Grid.Row="3" Grid.Column="0" Clicked="BtnGO_Clicked" BackgroundColor="Green"/>
+                </Grid>
+
+            </Grid>
             <Button x:Name="bntColourBL" Grid.Row="2"  Text="XXXXXX" HorizontalOptions="Start" WidthRequest="150" BackgroundColor="Teal"/>
                 <Label x:Name="lblArithBox" 
                    Text=" " 

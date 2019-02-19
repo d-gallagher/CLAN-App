@@ -20,60 +20,73 @@ namespace App_titude1
 		}
 
         //*********Calculator Button Logic*********
+        string calcInput = " ";
+        
         private void Btn0_Clicked(object sender, EventArgs e)
         {
             string val = "0";
             lblArithBox.Text += val ;
+            calcInput += val;
         }
         private void Btn1_Clicked(object sender, EventArgs e)
         {
             string val = "1";
             lblArithBox.Text += val ;
+            calcInput += val;
         }
         private void Btn2_Clicked(object sender, EventArgs e)
         {
             string val = "2";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn3_Clicked(object sender, EventArgs e)
         {
             string val = "3";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn4_Clicked(object sender, EventArgs e)
         {
             string val = "4";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn5_Clicked(object sender, EventArgs e)
         {
             string val = "5";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn6_Clicked(object sender, EventArgs e)
         {
             string val = "6";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn7_Clicked(object sender, EventArgs e)
         {
             string val = "7";
             lblArithBox.Text += val;
-
+            calcInput += val;
         }
         private void Btn8_Clicked(object sender, EventArgs e)
         {
             string val = "8";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void Btn9_Clicked(object sender, EventArgs e)
         {
             string val = "9";
             lblArithBox.Text += val;
+            calcInput += val;
         }
         private void BtnCLR_Clicked(object sender, EventArgs e)
         {
-            lblArithBox.Text = " ";
+
+            lblArithBox.Text = lblArithBox.Text.Replace(calcInput, " ");
+            calcInput = " ";
         }
 
         //*********colorGame Logic*********
@@ -119,22 +132,10 @@ namespace App_titude1
             Random random = new Random();
             lblLetterPrompt.Text = arr[random.Next(0, 4)];
 
-            int x = random.Next(0, 3);
-            switch (x)
-            {
-                case 0:
-                    x = genAddPromlem();
-                    break;
-                case 1:
-                    x = genSubPromlem();
-                    break;
-                case 2:
-                    x = genMultPromlem();
-                    break;
-                default: break;
-            }
+            //put a sum in the label
+            populateAritLabel();
 
-            Console.WriteLine(arr.Length + " " + arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3] + " " + x);
+            //Console.WriteLine(arr.Length + " " + arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3] + " " + x);
         }
 
         //*********numberGame Logic*********
@@ -161,11 +162,33 @@ namespace App_titude1
         private int genMultPromlem()
         {
             Random random = new Random();
-            int a = random.Next(1, 100);
+            int a = random.Next(1, 13);
             int b = random.Next(2, 12);
             int answer = a * b;
             lblArithBox.Text = a + " * " + b + ": ";
             return answer;
+        }
+
+        public void populateAritLabel()
+        {
+            Random random = new Random();
+
+            int x = random.Next(0, 3);
+            switch (x)
+            {
+                case 0:
+                    x = genAddPromlem();
+                    break;
+                case 1:
+                    x = genSubPromlem();
+                    break;
+                case 2:
+                    x = genMultPromlem();
+                    break;
+                default: break;
+            }
+
+
         }
 
         private void RED_TapGestureRecognizer_Tapped(object sender, EventArgs e)
