@@ -7,6 +7,8 @@ namespace App_titude1
 {
     public partial class App : Application
     {
+        public static bool isLeft = false;
+
         public App()
         {
             InitializeComponent();

@@ -20,5 +20,10 @@ namespace App_titude1
             Navigation.PushAsync(new GamePage());
             //new NavigationPage(new GamePage());
         }
+
+        private void Options_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new OptionsPage());
+        }
     }
 }

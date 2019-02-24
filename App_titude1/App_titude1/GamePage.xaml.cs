@@ -12,76 +12,93 @@ namespace App_titude1
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class GamePage : ContentPage
 	{
-        private ContentPage contentPage;
+        //private bool isRight;
 
         public GamePage ()
 		{
 			InitializeComponent ();
-		}
+            //isRight = App.isLeft;
+            setIsLeft();
+            Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerTick);
+
+        }
+
+        public void setIsLeft()
+        {
+            gridGamesLeft.IsVisible = App.isLeft;
+            gridGamesRight.IsVisible = !App.isLeft;
+        }
 
         //*********Calculator Button Logic*********
         string calcInput = " ";
-        
-        private void Btn0_Clicked(object sender, EventArgs e)
+        private void calcBtnClick(object sender, EventArgs e)
         {
-            string val = "0";
-            lblArithBox.Text += val ;
-            calcInput += val;
-        }
-        private void Btn1_Clicked(object sender, EventArgs e)
-        {
-            string val = "1";
-            lblArithBox.Text += val ;
-            calcInput += val;
-        }
-        private void Btn2_Clicked(object sender, EventArgs e)
-        {
-            string val = "2";
+            var val = ((Button)sender).Text;
+            //string val = sender.Text;
             lblArithBox.Text += val;
             calcInput += val;
         }
-        private void Btn3_Clicked(object sender, EventArgs e)
-        {
-            string val = "3";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn4_Clicked(object sender, EventArgs e)
-        {
-            string val = "4";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn5_Clicked(object sender, EventArgs e)
-        {
-            string val = "5";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn6_Clicked(object sender, EventArgs e)
-        {
-            string val = "6";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn7_Clicked(object sender, EventArgs e)
-        {
-            string val = "7";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn8_Clicked(object sender, EventArgs e)
-        {
-            string val = "8";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
-        private void Btn9_Clicked(object sender, EventArgs e)
-        {
-            string val = "9";
-            lblArithBox.Text += val;
-            calcInput += val;
-        }
+        //private void Btn0_Clicked(object sender, EventArgs e)
+        //{
+        //    Button b = (Button)sender;
+        //    string val = b.Text;
+        //    lblArithBox.Text += val ;
+        //    calcInput += val;
+        //}
+        //private void Btn1_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "1";
+        //    lblArithBox.Text += val ;
+        //    calcInput += val;
+        //}
+        //private void Btn2_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "2";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn3_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "3";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn4_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "4";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn5_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "5";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn6_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "6";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn7_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "7";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn8_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "8";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
+        //private void Btn9_Clicked(object sender, EventArgs e)
+        //{
+        //    string val = "9";
+        //    lblArithBox.Text += val;
+        //    calcInput += val;
+        //}
         private void BtnCLR_Clicked(object sender, EventArgs e)
         {
 
@@ -89,7 +106,7 @@ namespace App_titude1
             calcInput = " ";
         }
 
-        //*********colorGame Logic*********
+        //*********letterGame Logic*********
         //generate random char between a - z inclusive
         private char GenerateChar(Random rng)
         {
@@ -191,6 +208,8 @@ namespace App_titude1
 
         }
 
+        //*********colourGame Logic*********
+        //colour frames
         private void RED_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             lblLetterPrompt.Text = "RedTapped!";
@@ -206,9 +225,82 @@ namespace App_titude1
             lblLetterPrompt.Text = "GreenTapped!";
         }
 
-        //private void Button_Clicked(object sender, EventArgs e)
-        //{
+        //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
 
-        //}
+        static readonly TimeSpan duration = TimeSpan.FromSeconds(1);
+        Random random = new Random();
+        Point startPoint;
+        Point animationVector;
+        DateTime startTime;
+        Button button = null;
+        void OnButtonClicked(object sender, EventArgs args)
+        {
+            button = (Button)sender;
+            View container = (View)button.Parent;
+
+            // The start of the animation is the current Translation properties.
+            startPoint = new Point(button.TranslationX, button.TranslationY);
+
+            // The end of the animation is a random point.
+            double endX = (random.NextDouble() - 0.5) * (container.Width - button.Width);
+            //double endY = (random.NextDouble() - 0.5) * (container.Height - button.Height);
+
+            // Create a vector from start point to end point.
+            animationVector = new Point(endX - startPoint.X, 0); // , endY - startPoint.Y);
+
+            // Save the animation start time.
+            startTime = DateTime.Now;
+          
+            // Get the elapsed time from the beginning of the animation.
+            TimeSpan elapsedTime = DateTime.Now - startTime;
+
+            // Normalize the elapsed time from 0 to 1.
+            double t = Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds /
+                                                    duration.TotalMilliseconds));
+
+            // Calculate the new translation based on the animation vector.
+            button.TranslationX = startPoint.X + t * animationVector.X;
+            //button.TranslationY = startPoint.Y + t * animationVector.Y;
+
+        }
+
+        bool OnTimerTick()
+        {
+            // Get the elapsed time from the beginning of the animation.
+            TimeSpan elapsedTime = DateTime.Now - startTime;
+
+            // Normalize the elapsed time from 0 to 1.
+            double t = Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds /
+                                                    duration.TotalMilliseconds));
+
+            // Calculate the new translation based on the animation vector.
+            //button.TranslationX = startPoint.X + t * animationVector.X;
+            //button.TranslationY = startPoint.Y + t * animationVector.Y;
+            return true;
+        }
+
+        //shake button
+        async void btnShake_Clicked(object sender, EventArgs e)
+        {
+            Button shake = (Button)sender;
+            uint timeout = 50;
+
+            await shake.TranslateTo(-15, 0, timeout);
+
+            await shake.TranslateTo(15, 0, timeout);
+
+            await shake.TranslateTo(-10, 0, timeout);
+
+            await shake.TranslateTo(10, 0, timeout);
+
+            await shake.TranslateTo(-5, 0, timeout);
+
+            await shake.TranslateTo(5, 0, timeout);
+
+            shake.TranslationX = 0;
+
+        }
+        //right/left color game bools
+        
     }
 }

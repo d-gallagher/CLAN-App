@@ -2,7 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App_titude1.GamePage">
+
+    <ContentPage.Resources>
+        <Style x:Key="btnStyle" TargetType="Button">
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="BackgroundColor" Value="Khaki"/>
+        </Style>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
+
         <Grid x:Name="gridParent" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -21,7 +30,7 @@
                 <Button x:Name="bntColourTR" Grid.Row="0" Text="XXXXXX" HorizontalOptions="End" WidthRequest="150" BackgroundColor="Teal"/>
 
 
-            <Grid x:Name="gridGamesRight" Grid.Row="1" IsEnabled="True" IsVisible="True">
+            <Grid x:Name="gridGamesRight" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="*" />
@@ -38,6 +47,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="9*"/>
                     </Grid.ColumnDefinitions>
+
                     <!-- use frames instead of buttons, use tapped events instead of clicks,  --> 
                     <Frame Grid.Column="4" BackgroundColor="Black" >
            
@@ -65,6 +75,26 @@
                     <Frame Grid.Column="0" BackgroundColor="Black" />
                 </Grid>
 
+                
+            <Button x:Name="btnIconRIGHT"
+                    Text="Tap me!"
+                    FontSize="Large"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    Clicked="OnButtonClicked"
+                    />
+                <!-- Style="{StaticResource btnStyle}" -->
+   
+            <Button x:Name="btnShakeRIGHT"
+                    Text="SHAKE!"
+                    FontSize="Large"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Clicked="btnShake_Clicked"
+                    />
+                
+                
+
                 <Grid x:Name="gridCalcRight" 
                       BackgroundColor="Khaki" 
                       HorizontalOptions="End"
@@ -84,23 +114,23 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button Text="7" Grid.Row="0" Grid.Column="0" Clicked="Btn7_Clicked"/>
-                    <Button Text="8" Grid.Row="0" Grid.Column="1" Clicked="Btn8_Clicked"/>
-                    <Button Text="9" Grid.Row="0" Grid.Column="2" Clicked="Btn9_Clicked"/>
-                    <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Btn4_Clicked"/>
-                    <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="Btn5_Clicked"/>
-                    <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="Btn6_Clicked"/>
-                    <Button Text="1" Grid.Row="2" Grid.Column="0" Clicked="Btn1_Clicked"/>
-                    <Button Text="2" Grid.Row="2" Grid.Column="1" Clicked="Btn2_Clicked"/>
-                    <Button Text="3" Grid.Row="2" Grid.Column="2" Clicked="Btn3_Clicked"/>
+                    <Button Text="7" Grid.Row="0" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="8" Grid.Row="0" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="9" Grid.Row="0" Grid.Column="2" Clicked="calcBtnClick"/>
+                    <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="calcBtnClick"/>
+                    <Button Text="1" Grid.Row="2" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="2" Grid.Row="2" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="3" Grid.Row="2" Grid.Column="2" Clicked="calcBtnClick"/>
                     <Button Text="CLR" Grid.Row="3" Grid.Column="0" Clicked="BtnCLR_Clicked" BackgroundColor="Red"/>
-                    <Button Text="0" Grid.Row="3" Grid.Column="1" Clicked="Btn0_Clicked"/>
+                    <Button Text="0" Grid.Row="3" Grid.Column="1" Clicked="calcBtnClick"/>
                     <Button Text="GO" Grid.Row="3" Grid.Column="2" Clicked="BtnGO_Clicked" BackgroundColor="Green"/>
                 </Grid>
 
             </Grid>
-
-            <Grid x:Name="gridGamesLeft" Grid.Row="1" IsEnabled="False" IsVisible="False">
+            <!-- x:FieldModifier="public" -->
+            <Grid x:Name="gridGamesLeft" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="3*" />
@@ -143,7 +173,25 @@
 
                     <Frame Grid.Column="4" BackgroundColor="Black" />
                 </Grid>
+                
+            <Button x:Name="btnIconLEFT"
+                Text="Tap me!"
+                FontSize="Large"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Clicked="OnButtonClicked"
+                    Style="{StaticResource btnStyle}"
+                />
 
+                <!-- Style="{StaticResource btnStyle}" -->
+            <Button x:Name="btnShakeLEFT"
+                Text="SHAKE!"
+                FontSize="Large"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Clicked="btnShake_Clicked"
+                />
+                
                 <Grid x:Name="gridCalcLeft" 
                       BackgroundColor="Khaki" 
                       HorizontalOptions="End"
@@ -163,21 +211,22 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button Text="7" Grid.Row="0" Grid.Column="0" Clicked="Btn7_Clicked"/>
-                    <Button Text="8" Grid.Row="0" Grid.Column="1" Clicked="Btn8_Clicked"/>
-                    <Button Text="9" Grid.Row="0" Grid.Column="2" Clicked="Btn9_Clicked"/>
-                    <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Btn4_Clicked"/>
-                    <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="Btn5_Clicked"/>
-                    <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="Btn6_Clicked"/>
-                    <Button Text="1" Grid.Row="2" Grid.Column="0" Clicked="Btn1_Clicked"/>
-                    <Button Text="2" Grid.Row="2" Grid.Column="1" Clicked="Btn2_Clicked"/>
-                    <Button Text="3" Grid.Row="2" Grid.Column="2" Clicked="Btn3_Clicked"/>
+                    <Button Text="7" Grid.Row="0" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="8" Grid.Row="0" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="9" Grid.Row="0" Grid.Column="2" Clicked="calcBtnClick"/>
+                    <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="calcBtnClick"/>
+                    <Button Text="1" Grid.Row="2" Grid.Column="0" Clicked="calcBtnClick"/>
+                    <Button Text="2" Grid.Row="2" Grid.Column="1" Clicked="calcBtnClick"/>
+                    <Button Text="3" Grid.Row="2" Grid.Column="2" Clicked="calcBtnClick"/>
                     <Button Text="CLR" Grid.Row="3" Grid.Column="2" Clicked="BtnCLR_Clicked" BackgroundColor="Red"/>
-                    <Button Text="0" Grid.Row="3" Grid.Column="1" Clicked="Btn0_Clicked"/>
+                    <Button Text="0" Grid.Row="3" Grid.Column="1" Clicked="calcBtnClick"/>
                     <Button Text="GO" Grid.Row="3" Grid.Column="0" Clicked="BtnGO_Clicked" BackgroundColor="Green"/>
                 </Grid>
 
             </Grid>
+            
             <Button x:Name="bntColourBL" Grid.Row="2"  Text="XXXXXX" HorizontalOptions="Start" WidthRequest="150" BackgroundColor="Teal"/>
                 <Label x:Name="lblArithBox" 
                    Text=" " 

@@ -18,7 +18,7 @@
             <Button Text="About" Grid.Row="0"/>
             <Button Text="Tutorial" Grid.Row="1"/>
             <Button Text="Play" Grid.Row="2" Clicked="Play_Clicked"/>
-            <Button Text="Options" Grid.Row="3"/>
+            <Button Text="Options" Grid.Row="3" Clicked="Options_Clicked"/>
             <Button Text="Game Stats" Grid.Row="4"/>
         </Grid>
     </ContentPage.Content>
