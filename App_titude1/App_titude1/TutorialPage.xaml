@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App_titude1.TutorialPage">
+  <!--Pages can be added as references or inline-->
+    <ContentPage Title="Colour Game" >
+        <StackLayout BackgroundColor="#EAE43D">
+            <Label Text="This game runs constantly and requires your attention to press the relevant colour as the same coloured icon passes over it. This is scored as 'all or nothing', meaning if the icon is not directly within the relevant colour area, you get no points for it.. Stay focused!"  
+                   HorizontalTextAlignment="Center" 
+                   HorizontalOptions="FillAndExpand" 
+                   Margin="5" />
+            <Image x:Name="imgColours">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="Android" Value="colourGame.png"/>
+                        <On Platform="UWP" Value="Images/colourGame.png"/>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Letter Game">
+        <StackLayout BackgroundColor="#97D077">
+            <Label Text="Memorise the prompt - Top Centre.. (While performing the Colour and Number games). You must then select the correct answer when displayed in one of the corners. Both prompt and answers are timed so pay attention!"  
+                   HorizontalTextAlignment="Center" 
+                   HorizontalOptions="FillAndExpand" 
+                   Margin="5" 
+                   />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="imgLettersPrompt" Grid.Column="0">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="Android" Value="letterPrompt.png"/>
+                        <On Platform="UWP" Value="Images/letterPrompt.png"/>
+                    </OnPlatform>
+                </Image.Source>
+                </Image>
+                <Image x:Name="imgLettersAnswer" Grid.Column="1">
+                    <Image.Source>
+                        <OnPlatform x:TypeArguments="FileImageSource">
+                            <On Platform="Android" Value="letterAnswers.png"/>
+                            <On Platform="UWP" Value="Images/letterAnswers.png"/>
+                        </OnPlatform>
+                    </Image.Source>
+                </Image>
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Number Game">
+        <StackLayout BackgroundColor="#EA8059">
+            <Label Text="Maths prompt appears bottom centre. Use the keypad to enter the answer and press 'GO' to submit and move to the next problem. Press 'CLR' to clear the entered text if you have made a mistake. These problems will continue as long as you keep getting them correct."  
+                   HorizontalTextAlignment="Center" 
+                   HorizontalOptions="FillAndExpand" 
+                   Margin="5" />
+            <Image x:Name="imgNumbers">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="Android" Value="numberGame.png"/>
+                        <On Platform="UWP" Value="Images/numberGame.png"/>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>

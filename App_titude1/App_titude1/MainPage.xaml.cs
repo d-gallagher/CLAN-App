@@ -21,7 +21,7 @@ namespace App_titude1
 
         private void Tutorial_Clicked(object sender, EventArgs e)
         {
-            //Navigation.PushAsync(new ());
+            Navigation.PushAsync(new TutorialPage());
         }
 
         private void Play_Clicked(object sender, EventArgs e)

@@ -130,8 +130,12 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Images\colourGame.png" />
     <Content Include="Images\gameView.png" />
     <Content Include="Images\gameView_left.png" />
+    <Content Include="Images\letterAnswers.png" />
+    <Content Include="Images\letterPrompt.png" />
+    <Content Include="Images\numberGame.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
