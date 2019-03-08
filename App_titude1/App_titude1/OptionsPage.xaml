@@ -4,15 +4,22 @@
              x:Class="App_titude1.OptionsPage">
     <ContentPage.Content>
 
-        <StackLayout>
-            <Label Text="Left-Handed GamePlay"/>
+        <StackLayout BackgroundColor="Coral">
+            <Label x:Name="lblOption" Text="Right-Handed GamePlay Enabled" HorizontalOptions="CenterAndExpand"/>
             <Switch x:Name="swRight_Left"
                     HorizontalOptions="Center" 
                     VerticalOptions="Center"
-               
                     Toggled="Switch_Toggled"
                     x:FieldModifier="public"
              />
+            <Image x:Name="imgOption">
+                <Image.Source>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="Android" Value="gameView.png"/>
+                        <On Platform="UWP" Value="Images/gameView.png"/>
+                    </OnPlatform>
+                </Image.Source>
+            </Image>
         </StackLayout>
 
     </ContentPage.Content>

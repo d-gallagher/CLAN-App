@@ -25,6 +25,50 @@ namespace App_titude1
 
             App.isLeft = option.IsToggled;
 
+            if (App.isLeft == true)
+            {
+                lblOption.Text = "Left-Handed GamePlay Enabled";
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                    case Device.Android:
+                        imgOption.Source = ImageSource.FromFile("gameView_left.png");
+                        break;
+                    case Device.UWP:
+                        imgOption.Source = ImageSource.FromFile("Images/gameView_left.png");
+                        break;
+                    default: break;
+                }
+            }
+            else
+            {
+                lblOption.Text = "Right-Handed GamePlay Enabled";
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                    case Device.Android:
+                        imgOption.Source = ImageSource.FromFile("gameView.png");
+                        break;
+                    case Device.UWP:
+                        imgOption.Source = ImageSource.FromFile("Images/gameView.png");
+                        break;
+                    default: break;
+                }
+            }
         }
     }
 }
+
+/*
+ *             switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                case Device.Android:
+                    imgMainPage.Source = ImageSource.FromFile(Utils.Utils.MAINPAGE_IMAGE);
+                    break;
+                case Device.UWP:
+                    imgMainPage.Source = ImageSource.FromFile(Utils.Utils.UWP_IMG_FOLDER + Utils.Utils.MAINPAGE_IMAGE);
+                    break;
+                default: break;
+}
+ */

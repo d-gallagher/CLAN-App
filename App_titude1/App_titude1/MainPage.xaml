@@ -5,8 +5,14 @@
              xmlns:local="clr-namespace:App_titude1"
              x:Class="App_titude1.MainPage">
 
+    <ContentPage.Resources>
+        <Style x:Key="btnStyle" TargetType="Button">
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="BackgroundColor" Value="Khaki"/>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="Coral" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -15,11 +21,11 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Button Text="About" Grid.Row="0"/>
-            <Button Text="Tutorial" Grid.Row="1"/>
-            <Button Text="Play" Grid.Row="2" Clicked="Play_Clicked"/>
-            <Button Text="Options" Grid.Row="3" Clicked="Options_Clicked"/>
-            <Button Text="Game Stats" Grid.Row="4"/>
+            <Button Text="About" Grid.Row="0" Clicked="About_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Tutorial" Grid.Row="1" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Play" Grid.Row="2" Clicked="Play_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Options" Grid.Row="3" Clicked="Options_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Game Stats" Grid.Row="4" Style="{StaticResource btnStyle}" Margin="2"/>
         </Grid>
     </ContentPage.Content>
 

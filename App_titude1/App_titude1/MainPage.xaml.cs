@@ -14,6 +14,16 @@ namespace App_titude1
             InitializeComponent();
         }
 
+        private void About_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AboutPage());
+        }
+
+        private void Tutorial_Clicked(object sender, EventArgs e)
+        {
+            //Navigation.PushAsync(new ());
+        }
+
         private void Play_Clicked(object sender, EventArgs e)
         {
             //navigate to bodyfate.xaml page
@@ -25,5 +35,6 @@ namespace App_titude1
         {
             Navigation.PushAsync(new OptionsPage());
         }
+
     }
 }

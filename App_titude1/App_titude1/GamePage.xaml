@@ -12,7 +12,7 @@
 
     <ContentPage.Content>
 
-        <Grid x:Name="gridParent" >
+        <Grid x:Name="gridParent" BackgroundColor="Black">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
