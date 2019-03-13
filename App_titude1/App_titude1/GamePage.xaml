@@ -48,14 +48,9 @@
                         <ColumnDefinition Width="9*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- use frames instead of buttons, use tapped events instead of clicks,  --> 
-                    <Frame Grid.Column="4" BackgroundColor="Black" >
-           
-                    </Frame>
-                   <!-- <Button Grid.Column="1" BackgroundColor="Red" Padding="0"/> 
-                        <Button Grid.Column="2" BackgroundColor="Yellow" Padding="0"/>
-                        <Button Grid.Column="3" BackgroundColor="Green" Padding="0" />
-                    -->
+                    <!--Use frames instead of buttons, use tapped events instead of clicks:
+                        Black, 3*colour, Black  -->
+                    <Frame Grid.Column="4" BackgroundColor="Black" />
                     <Frame Grid.Column="3" BackgroundColor="Red" Padding="0">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="RED_TapGestureRecognizer_Tapped" />
@@ -71,29 +66,26 @@
                             <TapGestureRecognizer Tapped="GREEN_TapGestureRecognizer_Tapped" />
                         </Frame.GestureRecognizers>
                     </Frame>
-
                     <Frame Grid.Column="0" BackgroundColor="Black" />
                 </Grid>
 
-                
-            <Button x:Name="btnIconRIGHT"
-                    Text="Tap me!"
-                    FontSize="Large"
-                    HorizontalOptions="End"
-                    VerticalOptions="Start"
-                    Clicked="OnButtonClicked"
+                <Button x:Name="btnIconRIGHT"
+                        Text="Tap me!"
+                        FontSize="Large"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Clicked="OnButtonClicked"
+                        Style="{StaticResource btnStyle}"
                     />
-                <!-- Style="{StaticResource btnStyle}" -->
-   
-            <Button x:Name="btnShakeRIGHT"
-                    Text="SHAKE!"
-                    FontSize="Large"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    Clicked="btnShake_Clicked"
+
+                <Button x:Name="btnShakeRIGHT"
+                        Text="SHAKE!"
+                        FontSize="Large"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Clicked="btnShake_Clicked"
+                        Style="{StaticResource btnStyle}"
                     />
-                
-                
 
                 <Grid x:Name="gridCalcRight" 
                       BackgroundColor="Khaki" 

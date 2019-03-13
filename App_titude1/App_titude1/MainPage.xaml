@@ -9,6 +9,7 @@
         <Style x:Key="btnStyle" TargetType="Button">
             <Setter Property="CornerRadius" Value="7"/>
             <Setter Property="BackgroundColor" Value="Khaki"/>
+            <Setter Property="FontFamily" Value="Lobster-Regular.ttf#Lobster-Regular"/>
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
