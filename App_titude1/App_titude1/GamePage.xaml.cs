@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,6 +14,8 @@ namespace App_titude1
 	public partial class GamePage : ContentPage
 	{
         //private bool isRight;
+        //static readonly TimeSpan duration = TimeSpan.FromSeconds(1);
+        
 
         public GamePage ()
 		{
@@ -173,12 +175,17 @@ namespace App_titude1
         #region == moving button logic ==
         //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
 
+
+        // Timer for color game.
+       
         static readonly TimeSpan duration = TimeSpan.FromSeconds(1);
         Random random = new Random();
         Point startPoint;
         Point animationVector;
         DateTime startTime;
         Button button = null;
+
+
         void OnButtonClicked(object sender, EventArgs args)
         {
             button = (Button)sender;
@@ -210,7 +217,7 @@ namespace App_titude1
 
         }
 
-        bool OnTimerTick()
+        public bool OnTimerTick()
         {
             // Get the elapsed time from the beginning of the animation.
             TimeSpan elapsedTime = DateTime.Now - startTime;
@@ -220,7 +227,14 @@ namespace App_titude1
                                                     duration.TotalMilliseconds));
 
             // Calculate the new translation based on the animation vector.
-            //button.TranslationX = startPoint.X + t * animationVector.X;
+            if (App.isLeft)
+            {
+                btnIconLEFT.TranslationX = startPoint.X + t * animationVector.X;
+            }
+            else
+            {
+                btnIconRIGHT.TranslationX = startPoint.X + t * animationVector.X;
+            }
             //button.TranslationY = startPoint.Y + t * animationVector.Y;
             return true;
         }
@@ -246,11 +260,6 @@ namespace App_titude1
             shake.TranslationX = 0;
 
         }
-        
-        // Timer for color game.
-        TimeSpan timer = new TimeSpan();
-
-
 
         #endregion
     }

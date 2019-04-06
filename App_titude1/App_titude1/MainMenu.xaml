@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App_titude1.MainMenu">
     
-    <ContentPage..Content>
+    <ContentPage.Content>
 
         <Grid BackgroundColor="CornflowerBlue">
             <Grid.RowDefinitions>
@@ -21,5 +21,5 @@
             <Button Text="Game Stats" Grid.Row="4"/>
         </Grid>
         
-    </ContentPage..Content>
+    </ContentPage.Content>
 </ContentPage>

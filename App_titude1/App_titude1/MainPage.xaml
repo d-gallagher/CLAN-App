@@ -8,12 +8,12 @@
     <ContentPage.Resources>
         <Style x:Key="btnStyle" TargetType="Button">
             <Setter Property="CornerRadius" Value="7"/>
-            <Setter Property="BackgroundColor" Value="Khaki"/>
-            <Setter Property="FontFamily" Value="Lobster-Regular.ttf#Lobster-Regular"/>
+            <Setter Property="BackgroundColor" Value="LightCoral"/>
+            <!--<Setter Property="FontFamily" Value="Lobster-Regular.ttf#Lobster-Regular"/>-->
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="Coral" >
+        <Grid BackgroundColor="WhiteSmoke" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -22,9 +22,9 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Button Text="About" Grid.Row="0" Clicked="About_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
-            <Button Text="Tutorial" Grid.Row="1" Clicked="Tutorial_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
-            <Button Text="Play" Grid.Row="2" Clicked="Play_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Play" Grid.Row="0" Clicked="Play_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="About" Grid.Row="1" Clicked="About_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Tutorial" Grid.Row="2" Clicked="Tutorial_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
             <Button Text="Options" Grid.Row="3" Clicked="Options_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
             <Button Text="Game Stats" Grid.Row="4" Style="{StaticResource btnStyle}" Margin="2"/>
         </Grid>
