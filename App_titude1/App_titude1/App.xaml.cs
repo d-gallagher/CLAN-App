@@ -9,6 +9,8 @@ namespace App_titude1
     {
         //Handles Left/Right Orientation in OptionsPage
         public static bool isLeft = false;
+        public static bool playClicked = false;
+        public static int roundTime = 60;
 
         public App()
         {

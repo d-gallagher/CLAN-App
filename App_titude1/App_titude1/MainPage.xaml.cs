@@ -26,9 +26,9 @@ namespace App_titude1
 
         private void Play_Clicked(object sender, EventArgs e)
         {
-            //navigate to bodyfate.xaml page
+            
             Navigation.PushAsync(new GamePage());
-            //new NavigationPage(new GamePage());
+            App.playClicked = true;
         }
 
         private void Options_Clicked(object sender, EventArgs e)

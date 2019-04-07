@@ -58,17 +58,3 @@ namespace App_titude1
         }
     }
 }
-
-/*
- *             switch (Device.RuntimePlatform)
-            {
-                case Device.iOS:
-                case Device.Android:
-                    imgMainPage.Source = ImageSource.FromFile(Utils.Utils.MAINPAGE_IMAGE);
-                    break;
-                case Device.UWP:
-                    imgMainPage.Source = ImageSource.FromFile(Utils.Utils.UWP_IMG_FOLDER + Utils.Utils.MAINPAGE_IMAGE);
-                    break;
-                default: break;
-}
- */

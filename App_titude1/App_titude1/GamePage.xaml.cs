@@ -1,33 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Threading;
-
+using System.Diagnostics;
+using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
 namespace App_titude1
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class GamePage : ContentPage
-	{
-        //private bool isRight;
-        //static readonly TimeSpan duration = TimeSpan.FromSeconds(1);
-        
+    {
+        //round Length
+        private int round;
+        Timer roundTimer = new Timer();
 
         public GamePage ()
 		{
-			InitializeComponent ();
-            //isRight = App.isLeft;
-            setIsLeft();
-            Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerTick);
+            InitializeComponent ();
+            //Set Left / Right Game View
+            SetIsLeft();
 
+            //Timer for button movement
+            //Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerTick);
+
+            //Timer for gameTimer
+            if (App.playClicked == true)
+            {
+                //Device.StartTimer(TimeSpan.FromSeconds(1), ShowTime);
+
+                //StartButtonAnimation();
+            }
+          
         }
 
         //Set Game as Left/Right-Handed
-        public void setIsLeft()
+        public void SetIsLeft()
         {
             gridGamesLeft.IsVisible = App.isLeft;
             gridGamesRight.IsVisible = !App.isLeft;
@@ -65,7 +73,6 @@ namespace App_titude1
             //put a sum in the label
             populateAritLabel();
 
-            //Console.WriteLine(arr.Length + " " + arr[0] + " " + arr[1] + " " + arr[2] + " " + arr[3] + " " + x);
         }
         #endregion
 
@@ -172,31 +179,31 @@ namespace App_titude1
         }
         #endregion
 
-        #region == moving button logic ==
+        #region == OLD moving button logic ==
         //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
-
-
-        // Timer for color game.
        
-        static readonly TimeSpan duration = TimeSpan.FromSeconds(1);
+        static readonly TimeSpan duration = TimeSpan.FromSeconds(1);        
+
         Random random = new Random();
         Point startPoint;
         Point animationVector;
         DateTime startTime;
         Button button = null;
 
-
-        void OnButtonClicked(object sender, EventArgs args)
+        private void OnButtonClicked(object sender, EventArgs args)
         {
             button = (Button)sender;
             View container = (View)button.Parent;
 
             // The start of the animation is the current Translation properties.
             startPoint = new Point(button.TranslationX, button.TranslationY);
+            //startPoint1 = new Point(container.AnchorX, container.AnchorY);
+            //startPoint2 = new Point(container.AnchorX, container.AnchorY);
+            //startPoint3 = new Point(container.AnchorX, container.AnchorY);
 
             // The end of the animation is a random point.
-            double endX = (random.NextDouble() - 0.5) * (container.Width - button.Width);
-            //double endY = (random.NextDouble() - 0.5) * (container.Height - button.Height);
+            //double endX = (random.NextDouble() - 0.5) * (container.Width - button.Width);
+            double endX = -container.Width + button.Width;
 
             // Create a vector from start point to end point.
             animationVector = new Point(endX - startPoint.X, 0); // , endY - startPoint.Y);
@@ -204,16 +211,14 @@ namespace App_titude1
             // Save the animation start time.
             startTime = DateTime.Now;
           
-            // Get the elapsed time from the beginning of the animation.
-            TimeSpan elapsedTime = DateTime.Now - startTime;
+            //// Get the elapsed time from the beginning of the animation.
+            //TimeSpan elapsedTime = DateTime.Now - startTime;
 
-            // Normalize the elapsed time from 0 to 1.
-            double t = Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds /
-                                                    duration.TotalMilliseconds));
+            //// Normalize the elapsed time from 0 to 1.
+            //double t = Math.Max(0, Math.Min(1, 3));
 
-            // Calculate the new translation based on the animation vector.
-            button.TranslationX = startPoint.X + t * animationVector.X;
-            //button.TranslationY = startPoint.Y + t * animationVector.Y;
+            //// Calculate the new translation based on the animation vector.
+            //button.TranslationX = startPoint.X + t * animationVector.X;
 
         }
 
@@ -223,8 +228,8 @@ namespace App_titude1
             TimeSpan elapsedTime = DateTime.Now - startTime;
 
             // Normalize the elapsed time from 0 to 1.
-            double t = Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds /
-                                                    duration.TotalMilliseconds));
+            double t = .05;
+            //Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds / duration.TotalMilliseconds));
 
             // Calculate the new translation based on the animation vector.
             if (App.isLeft)
@@ -235,8 +240,108 @@ namespace App_titude1
             {
                 btnIconRIGHT.TranslationX = startPoint.X + t * animationVector.X;
             }
-            //button.TranslationY = startPoint.Y + t * animationVector.Y;
+            
             return true;
+        }
+        #endregion
+
+        #region == NEW button move logic
+        void SetPlayClickedState(bool startButtonState)//, bool cancelButtonState
+        {
+            App.playClicked = startButtonState;
+            //cancelButton.IsEnabled = cancelButtonState;
+        }
+
+        async void StartButtonAnimation()
+        {
+            //reset playClicked
+            SetPlayClickedState(false);
+
+            //get buttons
+            Button r = gridParent.FindByName<Button>("btnIconRIGHT");
+            Button g = gridParent.FindByName<Button>("btnShakeRIGHT");
+            Button y = gridParent.FindByName<Button>("btnShakeRIGHT1");
+
+            //get button parent grid
+            View containerR = (View)r.Parent;
+            View containerG = (View)g.Parent;
+            View containerY = (View)y.Parent;
+
+            //start from design time button location  
+            Point startPointR = new Point(r.TranslationX, r.TranslationY);
+            Point startPointG = new Point(g.TranslationX, g.TranslationY);
+            Point startPointY = new Point(y.TranslationX, y.TranslationY);
+
+            //end location of button - reset here?
+            double endXRed = -containerR.Width + r.Width;
+            double endXGre = -containerG.Width + g.Width;
+            double endXYel = -containerY.Width + y.Width;
+
+            
+            bool isCancelled = await r.TranslateTo(endXRed, 0, 3000);
+            if (!isCancelled)
+            {
+                isCancelled = await r.TranslateTo(startPointR.X, 0, 100);
+            }
+            if (!isCancelled)
+            {
+                isCancelled = await g.TranslateTo(endXGre, 0, 3000);
+            }
+            if (!isCancelled)
+            {
+                isCancelled = await g.TranslateTo(startPointG.X, 0, 100);
+            }
+            if (!isCancelled)
+            {
+                isCancelled = await y.TranslateTo(endXYel, 0, 3000);
+            }
+            if (!isCancelled)
+            {
+                isCancelled = await y.TranslateTo(startPointY.X, 0, 100);
+            }
+            
+            
+
+            //SetPlayClickedState(true);
+        }
+
+        // set off color buttons
+        // (re)Set round time, decrement counter
+        // disable button
+        private void BtnBegin_Clicked(object sender, EventArgs e)
+        {
+            //DispatcherTimer roundTimer = new DispatcherTimer();
+            round = 60;
+            lblGameTimer.Text = "Time: " + round;
+            //roundTimer.Interval = 1000;
+            //roundTimer.Elapsed += RoundTimer_Elapsed;
+            //roundTimer.Start();
+
+            btnBegin.IsEnabled = false;
+            btnBegin.IsVisible = false;
+            StartButtonAnimation();
+            
+
+            //roundTimer.Stop();
+            //return true;
+        }
+
+        //reduce round by 1 each second then re-enable button
+        //crashes while animation tried to run on main thread?
+        //Dispatcher for UI thread.. Throws Errors
+        // https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.DispatcherTimer
+        private void RoundTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            --round;
+            if (round == 0)
+            {
+                roundTimer.Stop();
+                btnBegin.IsEnabled = false;
+                btnBegin.IsVisible = false;
+                btnBegin.Text = "Replay";
+            }
+
+            lblGameTimer.Text = "Time: " + round;
         }
         #endregion
         //shake button
@@ -262,5 +367,31 @@ namespace App_titude1
         }
 
         #endregion
+
+        #region *********Game Timer Logic*********
+        private bool ShowTime()
+        {
+            lblGameTimer.Text = "Time: " + DateTime.Now.ToString("mm:ss");
+            //lblGameTimer.Text = "10";
+
+            //timer1.Interval = 1000;
+            //timer1.Elapsed += new ElapsedEventHandler(OnShowTimerElapsed);
+
+            //timer1.Start();
+            return true;
+        }
+
+        private void OnShowTimerElapsed(object sender, EventArgs e)
+        {
+            int count = int.Parse(lblGameTimer.Text);
+            //lblGameTimer.Text = (count - 1).ToString(); //lowering the value in the label by 1
+            if (count > 0)
+            {
+                lblGameTimer.Text = (count - 1).ToString();
+            }
+            
+        }
+        #endregion
+
     }
 }

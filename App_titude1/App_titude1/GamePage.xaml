@@ -20,7 +20,15 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-                
+
+            <!--<Button x:Name="btnBegin"
+                    Grid.Row="1"
+                    Text="Begin Game"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsEnabled="True"
+                    IsVisible="True"/>-->
+
             <Button x:Name="bntColourTL" Grid.Row="0" Text="XXXXXX" HorizontalOptions="Start" WidthRequest="150" BackgroundColor="Teal"/>
                 <Label x:Name="lblLetterPrompt"
                        Text="XISNFX" Grid.Row="0" 
@@ -69,14 +77,21 @@
                         </Frame.GestureRecognizers>
                     </Frame>
                     <Frame Grid.Column="0" BackgroundColor="WhiteSmoke" />
+                    
                 </Grid>
 
+                <Label x:Name="lblGameTimer"
+                               Text="Time: "
+                               FontSize="15"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="End" />
+                
                 <Button x:Name="btnIconRIGHT"
                         Text="R"
-                        WidthRequest="25"
+                        WidthRequest="35"
                         HeightRequest="35"
                         BackgroundColor="Red"
-                        FontSize="Large"
+                        FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Start"
                         Clicked="OnButtonClicked"
@@ -85,10 +100,10 @@
 
                 <Button x:Name="btnShakeRIGHT"
                         Text="Y"
-                        WidthRequest="25"
+                        WidthRequest="35"
                         HeightRequest="35"
                         BackgroundColor="Yellow"
-                        FontSize="Large"
+                        FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         Clicked="btnShake_Clicked"
@@ -97,10 +112,10 @@
 
                 <Button x:Name="btnShakeRIGHT1"
                         Text="G"
-                        WidthRequest="25"
+                        WidthRequest="35"
                         HeightRequest="35"
                         BackgroundColor="Green"
-                        FontSize="Large"
+                        FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="End"
                         Clicked="OnButtonClicked"
@@ -235,7 +250,16 @@
                 </Grid>
 
             </Grid>
-            
+
+            <Button x:Name="btnBegin"
+                    Grid.Row="1"
+                    Text="Begin Game"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsEnabled="True"
+                    IsVisible="True"
+                    Clicked="BtnBegin_Clicked"/>
+
             <Button x:Name="bntColourBL" Grid.Row="2"  Text="XXXXXX" HorizontalOptions="Start" WidthRequest="150" BackgroundColor="Teal"/>
                 <Label x:Name="lblArithBox" 
                    Text=" " 
