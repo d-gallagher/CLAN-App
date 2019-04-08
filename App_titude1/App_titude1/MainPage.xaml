@@ -13,7 +13,7 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="WhiteSmoke" >
+        <Grid BackgroundColor="YellowGreen" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -26,7 +26,7 @@
             <Button Text="About" Grid.Row="1" Clicked="About_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
             <Button Text="Tutorial" Grid.Row="2" Clicked="Tutorial_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
             <Button Text="Options" Grid.Row="3" Clicked="Options_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
-            <Button Text="Game Stats" Grid.Row="4" Style="{StaticResource btnStyle}" Margin="2"/>
+            <Button Text="Game Stats" Grid.Row="4" Clicked="GameStats_Clicked" Style="{StaticResource btnStyle}" Margin="2"/>
         </Grid>
     </ContentPage.Content>
 

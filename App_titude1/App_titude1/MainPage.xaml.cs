@@ -36,5 +36,9 @@ namespace App_titude1
             Navigation.PushAsync(new OptionsPage());
         }
 
+        private void GameStats_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new GameStatsPage());
+        }
     }
 }

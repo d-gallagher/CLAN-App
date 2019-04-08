@@ -171,7 +171,7 @@ namespace App_titude1
         }
         #endregion
 
-        #region == OLD moving button logic ==
+        #region == Test moving button logic ==
         //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
        
         static readonly TimeSpan duration = TimeSpan.FromSeconds(1);        
@@ -224,17 +224,47 @@ namespace App_titude1
             //Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds / duration.TotalMilliseconds));
 
             // Calculate the new translation based on the animation vector.
-            if (App.isLeft)
-            {
-                btnIconLEFT.TranslationX = startPoint.X + t * animationVector.X;
-            }
-            else
-            {
-                btnIconRIGHT.TranslationX = startPoint.X + t * animationVector.X;
-            }
+            //if (App.isLeft)
+            //{
+            //    btnIconLEFT.TranslationX = startPoint.X + t * animationVector.X;
+            //}
+            //else
+            //{
+            //    btnIconRIGHT.TranslationX = startPoint.X + t * animationVector.X;
+            //}
             
             return true;
         }
+
+        //return true if icon overlaps a frame when tapped
+        public bool DoesIconOverlapFrame(Frame frame)
+        {
+            ////get frames - set bool to get left/right 
+            //    rFrame = gridParent.FindByName<Frame>("RFrame_R");
+            //    yFrame = gridParent.FindByName<Frame>("YFrame_R");
+            //    gFrame = gridParent.FindByName<Frame>("GFrame_R");
+            string fName;//get frame name..?
+
+            Button r, y, g;
+            Point btnR, btnY, btnG;
+            if (!App.isLeft)
+            {
+                r = gridParent.FindByName<Button>("btnRIcon_R");
+                y = gridParent.FindByName<Button>("btnYIcon_R");
+                g = gridParent.FindByName<Button>("btnGIcon_R");
+            }
+            else
+            {
+                r = gridParent.FindByName<Button>("btnRIcon_L");
+                y = gridParent.FindByName<Button>("btnYIcon_L");
+                g = gridParent.FindByName<Button>("btnGIcon_L");
+            }
+            btnR = new Point(r.X, r.Y);
+            bool overlapsR = frame.Bounds.Contains(r.Bounds);
+
+            return true;
+        } 
+
         #endregion
 
         #region == NEW button move logic
@@ -246,10 +276,20 @@ namespace App_titude1
 
         async void StartButtonAnimation()
         {
-            //get buttons
-            Button r = gridParent.FindByName<Button>("btnIconRIGHT");
-            Button g = gridParent.FindByName<Button>("btnShakeRIGHT");
-            Button y = gridParent.FindByName<Button>("btnShakeRIGHT1");
+            //get buttons - to do: set bool to get left/right buttons
+            Button r, y, g;
+            if (!App.isLeft)
+            {
+                r = gridParent.FindByName<Button>("btnRIcon_R");
+                y = gridParent.FindByName<Button>("btnYIcon_R");
+                g = gridParent.FindByName<Button>("btnGIcon_R");
+            }
+            else
+            {
+                r = gridParent.FindByName<Button>("btnRIcon_L");
+                y = gridParent.FindByName<Button>("btnYIcon_L");
+                g = gridParent.FindByName<Button>("btnGIcon_L");
+            }
 
             //get button parent grid
             View containerR = (View)r.Parent;
@@ -298,7 +338,9 @@ namespace App_titude1
         private void BtnBegin_Clicked(object sender, EventArgs e)
         {
             round = 60;
-            lblGameTimer.Text = "Time: " + round;
+
+            if (!App.isLeft) lblGameTimer_R.Text = "Time: " + round;
+            else lblGameTimer_L.Text = "Time: " + round;
 
             roundTimer.Start();
             roundTimer.Interval = 1000;
@@ -330,9 +372,6 @@ namespace App_titude1
                     StartButtonAnimation();
                 }
                 else SetIconsMovingState(false);
-
-                
-
             });
         }
 
@@ -351,7 +390,8 @@ namespace App_titude1
                     btnBegin.Text = "Replay";
                 }
                 
-                lblGameTimer.Text = "Time: " + round;
+                if(!App.isLeft) lblGameTimer_R.Text = "Time: " + round;
+                else lblGameTimer_L.Text = "Time: " + round;
             });
            
         }
@@ -381,28 +421,7 @@ namespace App_titude1
         #endregion
 
         #region *********Game Timer Logic*********
-        private bool ShowTime()
-        {
-            lblGameTimer.Text = "Time: " + DateTime.Now.ToString("mm:ss");
-            //lblGameTimer.Text = "10";
 
-            //timer1.Interval = 1000;
-            //timer1.Elapsed += new ElapsedEventHandler(OnShowTimerElapsed);
-
-            //timer1.Start();
-            return true;
-        }
-
-        private void OnShowTimerElapsed(object sender, EventArgs e)
-        {
-            int count = int.Parse(lblGameTimer.Text);
-            //lblGameTimer.Text = (count - 1).ToString(); //lowering the value in the label by 1
-            if (count > 0)
-            {
-                lblGameTimer.Text = (count - 1).ToString();
-            }
-            
-        }
         #endregion
 
     }
