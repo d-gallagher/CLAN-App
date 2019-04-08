@@ -14,24 +14,16 @@ namespace App_titude1
         //round Length
         private int round;
         Timer roundTimer = new Timer();
+        Timer iconAnimationTimer = new Timer();
+        //Timer iconAnimationTimer = new Timer();
+        bool iconsMoving = false;
 
         public GamePage ()
 		{
             InitializeComponent ();
             //Set Left / Right Game View
             SetIsLeft();
-
-            //Timer for button movement
-            //Device.StartTimer(TimeSpan.FromMilliseconds(16), OnTimerTick);
-
-            //Timer for gameTimer
-            if (App.playClicked == true)
-            {
-                //Device.StartTimer(TimeSpan.FromSeconds(1), ShowTime);
-
-                //StartButtonAnimation();
-            }
-          
+            
         }
 
         //Set Game as Left/Right-Handed
@@ -246,17 +238,14 @@ namespace App_titude1
         #endregion
 
         #region == NEW button move logic
-        void SetPlayClickedState(bool startButtonState)//, bool cancelButtonState
+        private void SetIconsMovingState(bool startAnimation)//, bool cancelButtonState
         {
-            App.playClicked = startButtonState;
-            //cancelButton.IsEnabled = cancelButtonState;
+            iconsMoving = startAnimation;
         }
+
 
         async void StartButtonAnimation()
         {
-            //reset playClicked
-            SetPlayClickedState(false);
-
             //get buttons
             Button r = gridParent.FindByName<Button>("btnIconRIGHT");
             Button g = gridParent.FindByName<Button>("btnShakeRIGHT");
@@ -277,32 +266,30 @@ namespace App_titude1
             double endXGre = -containerG.Width + g.Width;
             double endXYel = -containerY.Width + y.Width;
 
-            
-            bool isCancelled = await r.TranslateTo(endXRed, 0, 3000);
-            if (!isCancelled)
+            if (iconsMoving)
             {
-                isCancelled = await r.TranslateTo(startPointR.X, 0, 100);
-            }
-            if (!isCancelled)
-            {
-                isCancelled = await g.TranslateTo(endXGre, 0, 3000);
-            }
-            if (!isCancelled)
-            {
-                isCancelled = await g.TranslateTo(startPointG.X, 0, 100);
-            }
-            if (!isCancelled)
-            {
-                isCancelled = await y.TranslateTo(endXYel, 0, 3000);
-            }
-            if (!isCancelled)
-            {
-                isCancelled = await y.TranslateTo(startPointY.X, 0, 100);
-            }
-            
-            
-
-            //SetPlayClickedState(true);
+                bool isCancelled = await r.TranslateTo(endXRed, 0, 3000);
+                if (!isCancelled)
+                {
+                    isCancelled = await r.TranslateTo(startPointR.X, 0, 100);
+                }
+                if (!isCancelled)
+                {
+                    isCancelled = await g.TranslateTo(endXGre, 0, 3000);
+                }
+                if (!isCancelled)
+                {
+                    isCancelled = await g.TranslateTo(startPointG.X, 0, 100);
+                }
+                if (!isCancelled)
+                {
+                    isCancelled = await y.TranslateTo(endXYel, 0, 3000);
+                }
+                if (!isCancelled)
+                {
+                    isCancelled = await y.TranslateTo(startPointY.X, 0, 100);
+                }
+            }//while true     
         }
 
         // set off color buttons
@@ -310,38 +297,63 @@ namespace App_titude1
         // disable button
         private void BtnBegin_Clicked(object sender, EventArgs e)
         {
-            //DispatcherTimer roundTimer = new DispatcherTimer();
             round = 60;
             lblGameTimer.Text = "Time: " + round;
-            //roundTimer.Interval = 1000;
-            //roundTimer.Elapsed += RoundTimer_Elapsed;
-            //roundTimer.Start();
+
+            roundTimer.Start();
+            roundTimer.Interval = 1000;
+            roundTimer.Elapsed += RoundTimer_Elapsed;
+            
 
             btnBegin.IsEnabled = false;
             btnBegin.IsVisible = false;
+
+            SetIconsMovingState(true);
             StartButtonAnimation();
+            iconAnimationTimer.Start();
+            iconAnimationTimer.Interval = 10000;
+            iconAnimationTimer.Elapsed += IconAnimationTimer_Elapsed;
             
 
-            //roundTimer.Stop();
-            //return true;
+        }
+
+        private void IconAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                //while the round is ongoing, continue moving icons
+                //switching on and off at each interval
+
+                if (round > 0)
+                {
+                    SetIconsMovingState(true);
+                    StartButtonAnimation();
+                }
+                else SetIconsMovingState(false);
+
+                
+
+            });
         }
 
         //reduce round by 1 each second then re-enable button
-        //crashes while animation tried to run on main thread?
-        //Dispatcher for UI thread.. Throws Errors
-        // https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.DispatcherTimer
         private void RoundTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            --round;
-            if (round == 0)
+            //allows animation on main thread
+            Device.BeginInvokeOnMainThread(() =>
             {
-                roundTimer.Stop();
-                btnBegin.IsEnabled = false;
-                btnBegin.IsVisible = false;
-                btnBegin.Text = "Replay";
-            }
-
-            lblGameTimer.Text = "Time: " + round;
+                 --round;
+                if (round == 0)
+                {
+                    roundTimer.Stop();
+                    btnBegin.IsEnabled = true;
+                    btnBegin.IsVisible = true;
+                    btnBegin.Text = "Replay";
+                }
+                
+                lblGameTimer.Text = "Time: " + round;
+            });
+           
         }
         #endregion
         //shake button
