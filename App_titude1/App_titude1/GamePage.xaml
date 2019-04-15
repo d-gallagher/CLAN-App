@@ -85,7 +85,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Start"
-                        Clicked="OnButtonClicked"
                         Style="{StaticResource btnStyle}"
                     />
 
@@ -97,7 +96,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
-                        Clicked="btnShake_Clicked"
                         Style="{StaticResource btnStyle}"
                     />
 
@@ -109,7 +107,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="End"
-                        Clicked="OnButtonClicked"
                         Style="{StaticResource btnStyle}"
                     />
 
@@ -202,7 +199,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Start"
-                        Clicked="OnButtonClicked"
                         Style="{StaticResource btnStyle}"
                     />
 
@@ -214,7 +210,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
-                        Clicked="btnShake_Clicked"
                         Style="{StaticResource btnStyle}"
                     />
 
@@ -226,7 +221,6 @@
                         FontSize="Small"
                         HorizontalOptions="End"
                         VerticalOptions="End"
-                        Clicked="OnButtonClicked"
                         Style="{StaticResource btnStyle}"
                     />
                 </Grid>

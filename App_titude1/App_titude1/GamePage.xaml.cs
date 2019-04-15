@@ -12,18 +12,24 @@ namespace App_titude1
 	public partial class GamePage : ContentPage
     {
         //round Length
-        private int round;
+        private static int round;
         Timer roundTimer = new Timer();
         Timer iconAnimationTimer = new Timer();
-        //Timer iconAnimationTimer = new Timer();
+        Timer letterButtonTimer = new Timer();
+        Timer letterPromptTimer = new Timer();
+        
         bool iconsMoving = false;
+        ////array of lettergame strings
+        string[] lettersArray;
 
         public GamePage ()
 		{
             InitializeComponent ();
             //Set Left / Right Game View
             SetIsLeft();
-            
+            //array of lettergame strings
+            lettersArray = PopulateLetterGame();
+
         }
 
         //Set Game as Left/Right-Handed
@@ -54,30 +60,22 @@ namespace App_titude1
         //*TEMP* when go clicked set random add/sub/mult to arith label - working
         private void BtnGO_Clicked(object sender, EventArgs e)
         {
-            string[] arr = populateLetterGame();
-            bntColourTL.Text = arr[0];
-            bntColourTR.Text = arr[1];
-            bntColourBL.Text = arr[2];
-            bntColourBR.Text = arr[3];
-            Random random = new Random();
-            lblLetterPrompt.Text = arr[random.Next(0, 4)];
-
             //put a sum in the label
-            populateAritLabel();
+            PopulateAritLabel();
 
         }
         #endregion
 
         #region *********letterGame Logic*********
         //generate random char between a - z inclusive
-        private char GenerateChar(Random rng)
+        private static char GenerateChar(Random rng)
         {
             // 'Z' + 1 because the range is exclusive
             return (char)(rng.Next('A', 'Z' + 1));
         }
 
         //gen random string of letters
-        private string generateLetters(Random rng, int length)
+        private static string GenerateLetters(Random rng, int length)
         {
             char[] letters = new char[length];
             for (int i = 0; i < length; i++)
@@ -88,20 +86,20 @@ namespace App_titude1
         }
 
         //add 4 random letter strings to list, array
-        private string[] populateLetterGame()
+        private static string[] PopulateLetterGame()
         {
             Random rng = new Random();
             List<string> letterSet = new List<string>();
             for (int i = 0; i < 4; i++)
             {
-                letterSet.Add(generateLetters(rng, 3));
+                letterSet.Add(GenerateLetters(rng, 3));
             }
             return letterSet.ToArray();
         }
         #endregion
 
         #region *********numberGame Logic*********
-        private int genAddPromlem()
+        private int GenAddPromlem()
         {
             Random random = new Random();
             int a = random.Next(1, 100);
@@ -112,7 +110,7 @@ namespace App_titude1
 
             return answer;
         }
-        private int genSubPromlem()
+        private int GenSubPromlem()
         {
             Random random = new Random();
             int a = random.Next(1, 100);
@@ -121,7 +119,7 @@ namespace App_titude1
             lblArithBox.Text = a + " - " + b + ": ";
             return answer;
         }
-        private int genMultPromlem()
+        private int GenMultPromlem()
         {
             Random random = new Random();
             int a = random.Next(1, 13);
@@ -131,7 +129,7 @@ namespace App_titude1
             return answer;
         }
 
-        public void populateAritLabel()
+        public void PopulateAritLabel()
         {
             Random random = new Random();
 
@@ -139,13 +137,13 @@ namespace App_titude1
             switch (x)
             {
                 case 0:
-                    x = genAddPromlem();
+                    x = GenAddPromlem();
                     break;
                 case 1:
-                    x = genSubPromlem();
+                    x = GenSubPromlem();
                     break;
                 case 2:
-                    x = genMultPromlem();
+                    x = GenMultPromlem();
                     break;
                 default: break;
             }
@@ -157,23 +155,92 @@ namespace App_titude1
         #region == colour frames tapped ==
         private void RED_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            lblLetterPrompt.Text = "RedTapped!";
+            Frame frame = (Frame)sender;
+            Button b;
+            //set button depending on left/right orientation
+            if (!App.isLeft)
+            {
+                b = gridParent.FindByName<Button>("btnRIcon_R");
+            }
+            else
+            {
+                b = gridParent.FindByName<Button>("btnRIcon_L");
+            }
+
+            bool overlap = DoesIconOverlapFrame(frame, b);
+
+            if (overlap)
+            {
+                lblLetterPrompt.Text = "Red Overlaps!";
+            }
+            else lblLetterPrompt.Text = "RedTapped!";
         }
 
         private void YELLOW_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            lblLetterPrompt.Text = "YellowTapped!";
+            Frame frame = (Frame)sender;
+            Button b;
+            //set button depending on left/right orientation
+            if (!App.isLeft)
+            {
+                b = gridParent.FindByName<Button>("btnYIcon_R");
+            }
+            else
+            {
+                b = gridParent.FindByName<Button>("btnYIcon_L");
+            }
+
+            bool overlap = DoesIconOverlapFrame(frame, b);
+
+            if (overlap)
+            {
+                lblLetterPrompt.Text = "Yellow Overlaps!";
+            }
+            else lblLetterPrompt.Text = "YellowTapped!";
         }
 
         private void GREEN_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            lblLetterPrompt.Text = "GreenTapped!";
+            Frame frame = (Frame)sender;
+            Button b;
+            //set button depending on left/right orientation
+            if (!App.isLeft)
+            {
+                b = gridParent.FindByName<Button>("btnGIcon_R");
+            }
+            else
+            {
+                b = gridParent.FindByName<Button>("btnGIcon_L");
+            }
+
+            bool overlap = DoesIconOverlapFrame(frame, b);
+
+            if (overlap)
+            {
+                lblLetterPrompt.Text = "Green Overlaps!";
+            }
+            else lblLetterPrompt.Text = "GreenTapped!";
         }
+
+        //return true if icon overlaps a frame when tapped
+        public bool DoesIconOverlapFrame(Frame frame, Button button)
+        {
+            Point btn;
+
+            //set bounds of buttons
+            btn = new Point(button.X, button.Y);
+
+            //check if overlapping w/frame when frame is tapped
+            bool overlaps = frame.Bounds.Contains(btn);
+
+            return overlaps;
+        }
+
         #endregion
 
         #region == Test moving button logic ==
         //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
-       
+
         static readonly TimeSpan duration = TimeSpan.FromSeconds(1);        
 
         Random random = new Random();
@@ -236,35 +303,6 @@ namespace App_titude1
             return true;
         }
 
-        //return true if icon overlaps a frame when tapped
-        public bool DoesIconOverlapFrame(Frame frame)
-        {
-            ////get frames - set bool to get left/right 
-            //    rFrame = gridParent.FindByName<Frame>("RFrame_R");
-            //    yFrame = gridParent.FindByName<Frame>("YFrame_R");
-            //    gFrame = gridParent.FindByName<Frame>("GFrame_R");
-            string fName;//get frame name..?
-
-            Button r, y, g;
-            Point btnR, btnY, btnG;
-            if (!App.isLeft)
-            {
-                r = gridParent.FindByName<Button>("btnRIcon_R");
-                y = gridParent.FindByName<Button>("btnYIcon_R");
-                g = gridParent.FindByName<Button>("btnGIcon_R");
-            }
-            else
-            {
-                r = gridParent.FindByName<Button>("btnRIcon_L");
-                y = gridParent.FindByName<Button>("btnYIcon_L");
-                g = gridParent.FindByName<Button>("btnGIcon_L");
-            }
-            btnR = new Point(r.X, r.Y);
-            bool overlapsR = frame.Bounds.Contains(r.Bounds);
-
-            return true;
-        } 
-
         #endregion
 
         #region == NEW button move logic
@@ -293,18 +331,18 @@ namespace App_titude1
 
             //get button parent grid
             View containerR = (View)r.Parent;
-            View containerG = (View)g.Parent;
             View containerY = (View)y.Parent;
+            View containerG = (View)g.Parent;
 
             //start from design time button location  
             Point startPointR = new Point(r.TranslationX, r.TranslationY);
-            Point startPointG = new Point(g.TranslationX, g.TranslationY);
             Point startPointY = new Point(y.TranslationX, y.TranslationY);
+            Point startPointG = new Point(g.TranslationX, g.TranslationY);
 
-            //end location of button - reset here?
+            //end location of button 
             double endXRed = -containerR.Width + r.Width;
-            double endXGre = -containerG.Width + g.Width;
             double endXYel = -containerY.Width + y.Width;
+            double endXGre = -containerG.Width + g.Width;
 
             if (iconsMoving)
             {
@@ -332,9 +370,7 @@ namespace App_titude1
             }//while true     
         }
 
-        // set off color buttons
-        // (re)Set round time, decrement counter
-        // disable button
+        // Handle Round beginning and set animations and timers in motion
         private void BtnBegin_Clicked(object sender, EventArgs e)
         {
             round = 60;
@@ -342,21 +378,71 @@ namespace App_titude1
             if (!App.isLeft) lblGameTimer_R.Text = "Time: " + round;
             else lblGameTimer_L.Text = "Time: " + round;
 
+            // timer to update round timer label
             roundTimer.Start();
             roundTimer.Interval = 1000;
             roundTimer.Elapsed += RoundTimer_Elapsed;
             
-
+            //hide begin button while round in progress
             btnBegin.IsEnabled = false;
             btnBegin.IsVisible = false;
 
+            //timer to manage icons moving
             SetIconsMovingState(true);
             StartButtonAnimation();
             iconAnimationTimer.Start();
             iconAnimationTimer.Interval = 10000;
             iconAnimationTimer.Elapsed += IconAnimationTimer_Elapsed;
-            
 
+            //default in case everything breaks with the timer elapsed
+            bntColourTL.Text = lettersArray[0];
+            bntColourTR.Text = lettersArray[1];
+            bntColourBL.Text = lettersArray[2];
+            bntColourBR.Text = lettersArray[3];
+            Random random = new Random();
+            lblLetterPrompt.Text = lettersArray[random.Next(0, 4)];
+
+            //timers to manage letter game
+            letterPromptTimer.Start();
+            letterPromptTimer.Interval = 5000;
+            //letterPromptTimer.Elapsed += LetterPromptTimer_Elapsed;  
+            if (round < 55 )
+            {
+                letterPromptTimer.Stop();
+            }
+
+            if (round < 40 && round > 35)
+            {
+                letterButtonTimer.Start();
+                letterButtonTimer.Interval = 5000;
+                //letterButtonTimer.Elapsed += LetterButtonTimer_Elapsed;
+            }
+            letterButtonTimer.Stop();
+        }
+
+        private void LetterButtonTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                bntColourTL.Text = lettersArray[0];
+                bntColourTR.Text = lettersArray[1];
+                bntColourBL.Text = lettersArray[2];
+                bntColourBR.Text = lettersArray[3];
+            });
+        }
+
+        private void LetterPromptTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Random random = new Random();
+            string letterPrompt = lettersArray[random.Next(0, 4)];
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (round > 55)
+                {
+                    lblLetterPrompt.Text = letterPrompt;
+                }
+               
+            });
         }
 
         private void IconAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -396,8 +482,8 @@ namespace App_titude1
            
         }
         #endregion
-        //shake button
-        async void btnShake_Clicked(object sender, EventArgs e)
+        //shake button - not in use
+        async void BtnShake_Clicked(object sender, EventArgs e)
         {
             Button shake = (Button)sender;
             uint timeout = 50;
@@ -417,10 +503,6 @@ namespace App_titude1
             shake.TranslationX = 0;
 
         }
-
-        #endregion
-
-        #region *********Game Timer Logic*********
 
         #endregion
 
