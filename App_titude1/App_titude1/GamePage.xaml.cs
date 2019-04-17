@@ -29,7 +29,7 @@ namespace App_titude1
             //Set Left / Right Game View
             SetIsLeft();
             //array of lettergame strings
-            lettersArray = PopulateLetterGame();
+            lettersArray = PopulateLettersArray();
 
         }
 
@@ -87,7 +87,7 @@ namespace App_titude1
         }
 
         //add 4 random letter strings to list, and return array
-        private static string[] PopulateLetterGame()
+        private static string[] PopulateLettersArray()
         {
             Random rng = new Random();
             List<string> letterSet = new List<string>();
@@ -98,13 +98,17 @@ namespace App_titude1
             return letterSet.ToArray();
         }
 
-        //populate letter buttons and prompt label
-        private void SetLetterStrings()
+        //Set letter buttons
+        private void PopulateLetterButtons()
         {
             bntColourTL.Text = lettersArray[0];
             bntColourTR.Text = lettersArray[1];
             bntColourBL.Text = lettersArray[2];
             bntColourBR.Text = lettersArray[3];
+        }
+        //Set Prompt label
+        private void PopulateLetterPrompt()
+        {
             Random random = new Random();
             lblLetterPrompt.Text = lettersArray[random.Next(0, 4)];
         }
@@ -307,7 +311,8 @@ namespace App_titude1
             iconAnimationTimer.Elapsed += IconAnimationTimer_Elapsed;
 
             //*Default while working on timer for letter labels*
-            //SetLetterStrings();
+            PopulateLetterPrompt();
+            PopulateLetterButtons();
 
             //Timer to manage letter prompt
             letterPromptTimer.Start();
@@ -398,22 +403,17 @@ namespace App_titude1
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                bntColourTL.Text = lettersArray[0];
-                bntColourTR.Text = lettersArray[1];
-                bntColourBL.Text = lettersArray[2];
-                bntColourBR.Text = lettersArray[3];
+                PopulateLetterButtons();
             });
         }
         //Populate LetterPrompt at interval
         private void LetterPromptTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Random random = new Random();
-            string letterPrompt = lettersArray[random.Next(0, 4)];
+        {            
             Device.BeginInvokeOnMainThread(() =>
             {
                 if (round > 55)
                 {
-                    lblLetterPrompt.Text = letterPrompt;
+                    PopulateLetterPrompt();
                 }
                
             });
