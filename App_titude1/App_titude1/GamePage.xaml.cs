@@ -186,15 +186,13 @@ namespace App_titude1
             }
 
             bool overlap = DoesIconOverlapFrame(frame, b);
-            ShakeButtonWhenTapped(b);
+            
 
             if (overlap)
             {
                 lblLetterPrompt.Text = "Red Overlaps!";
-                Console.WriteLine("Got Collision");
+                ShakeButtonWhenTapped(b);
             }
-
-            Console.WriteLine("Tapped");
             //else lblLetterPrompt.Text = "RedTapped!";
         }
 
@@ -218,10 +216,9 @@ namespace App_titude1
             if (overlap)
             {
                 lblLetterPrompt.Text = "Yellow Overlaps!";
-                Console.WriteLine("Got Collision");
+                ShakeButtonWhenTapped(b);
             }
             //else lblLetterPrompt.Text = "YellowTapped!";
-            Console.WriteLine("Tapped");
         }
 
         private void GREEN_TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -245,9 +242,8 @@ namespace App_titude1
             if (overlap)
             {
                 lblLetterPrompt.Text = "Green Overlaps!";
-                Console.WriteLine("Got Collision");
-            }
-            Console.WriteLine("Tapped");
+                ShakeButtonWhenTapped(b);
+            }            
             //else lblLetterPrompt.Text = "GreenTapped!";
         }
 
@@ -285,6 +281,28 @@ namespace App_titude1
             await shake.TranslateTo(0, 5, timeout);
 
             shake.TranslationY = startPosition;
+
+        }
+        //shake button horizontal
+        async void ShakeButtonWhenTapped(object sender)
+        {
+            Button shake = (Button)sender;
+            uint timeout = 50;
+            double startPosition = shake.TranslationX;
+
+            await shake.TranslateTo(-15, 0, timeout);
+
+            await shake.TranslateTo(15, 0, timeout);
+
+            await shake.TranslateTo(-10, 0, timeout);
+
+            await shake.TranslateTo(10, 0, timeout);
+
+            await shake.TranslateTo(-5, 0, timeout);
+
+            await shake.TranslateTo(5, 0, timeout);
+
+            shake.TranslationX = startPosition;
 
         }
         #endregion
@@ -470,32 +488,7 @@ namespace App_titude1
 
         #endregion
 
-        private void BtnRIcon_R_Clicked(object sender, EventArgs e)
-        {
-            Button b = (Button)sender;
-            ShakeButtonWhenTapped(b);
-
-        }
-        async void ShakeButtonWhenTapped(object sender)
-        {
-            Button shake = (Button)sender;
-            uint timeout = 50;
-            double startPosition = shake.TranslationY;
-
-            await shake.TranslateTo(0, -15, timeout);
-
-            await shake.TranslateTo(0, 15, timeout);
-
-            await shake.TranslateTo(0, -10, timeout);
-
-            await shake.TranslateTo(0, 10, timeout);
-
-            await shake.TranslateTo(0, -5, timeout);
-
-            await shake.TranslateTo(0, 5, timeout);
-
-            shake.TranslationY = startPosition;
-
-        }
+      
+        
     }
 }

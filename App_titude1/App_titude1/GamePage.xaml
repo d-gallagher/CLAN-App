@@ -86,7 +86,6 @@
                         HorizontalOptions="End"
                         VerticalOptions="Start"
                         Style="{StaticResource btnStyle}"
-                        Clicked="BtnRIcon_R_Clicked"
                     />
 
                 <Button x:Name="btnYIcon_R"
