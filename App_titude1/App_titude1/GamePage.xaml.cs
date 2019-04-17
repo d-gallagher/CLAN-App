@@ -13,11 +13,12 @@ namespace App_titude1
     {
         //round Length
         private static int round;
+        //Timers
         Timer roundTimer = new Timer();
         Timer iconAnimationTimer = new Timer();
         Timer letterButtonTimer = new Timer();
         Timer letterPromptTimer = new Timer();
-        
+        //True if icons are moving
         bool iconsMoving = false;
         ////array of lettergame strings
         string[] lettersArray;
@@ -39,7 +40,8 @@ namespace App_titude1
             gridGamesRight.IsVisible = !App.isLeft;
         }
 
-        #region *********Calculator Button Logic*********
+        #region == Calculator Button Logic ==
+        //Get Input from Calculator
         string calcInput = " ";
         private void calcBtnClick(object sender, EventArgs e)
         {
@@ -48,16 +50,15 @@ namespace App_titude1
             lblArithBox.Text += val;
             calcInput += val;
         }
-      
+        
+        //Clear input from Calculator
         private void BtnCLR_Clicked(object sender, EventArgs e)
         {
-
             lblArithBox.Text = lblArithBox.Text.Replace(calcInput, " ");
             calcInput = " ";
         }
 
-        //*TEMP* when go clicked - set color buttons text, and label prompt - working
-        //*TEMP* when go clicked set random add/sub/mult to arith label - working
+        //Handle scoring and re-populate the sum label
         private void BtnGO_Clicked(object sender, EventArgs e)
         {
             //put a sum in the label
@@ -66,7 +67,7 @@ namespace App_titude1
         }
         #endregion
 
-        #region *********letterGame Logic*********
+        #region == LetterGame Logic ==
         //generate random char between a - z inclusive
         private static char GenerateChar(Random rng)
         {
@@ -74,7 +75,7 @@ namespace App_titude1
             return (char)(rng.Next('A', 'Z' + 1));
         }
 
-        //gen random string of letters
+        //generate 'length' string of letters 
         private static string GenerateLetters(Random rng, int length)
         {
             char[] letters = new char[length];
@@ -85,7 +86,7 @@ namespace App_titude1
             return new string(letters);
         }
 
-        //add 4 random letter strings to list, array
+        //add 4 random letter strings to list, and return array
         private static string[] PopulateLetterGame()
         {
             Random rng = new Random();
@@ -95,6 +96,17 @@ namespace App_titude1
                 letterSet.Add(GenerateLetters(rng, 3));
             }
             return letterSet.ToArray();
+        }
+
+        //populate letter buttons and prompt label
+        private void SetLetterStrings()
+        {
+            bntColourTL.Text = lettersArray[0];
+            bntColourTR.Text = lettersArray[1];
+            bntColourBL.Text = lettersArray[2];
+            bntColourBR.Text = lettersArray[3];
+            Random random = new Random();
+            lblLetterPrompt.Text = lettersArray[random.Next(0, 4)];
         }
         #endregion
 
@@ -150,12 +162,13 @@ namespace App_titude1
         }
         #endregion
 
-        #region *********colourGame Logic*********
+        #region == ColourGame Logic ==
 
         #region == colour frames tapped ==
         private void RED_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             Frame frame = (Frame)sender;
+            ShakeFrameWhenTapped(frame);
             Button b;
             //set button depending on left/right orientation
             if (!App.isLeft)
@@ -179,6 +192,7 @@ namespace App_titude1
         private void YELLOW_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             Frame frame = (Frame)sender;
+            ShakeFrameWhenTapped(frame);
             Button b;
             //set button depending on left/right orientation
             if (!App.isLeft)
@@ -202,6 +216,7 @@ namespace App_titude1
         private void GREEN_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             Frame frame = (Frame)sender;
+            ShakeFrameWhenTapped(frame);
             Button b;
             //set button depending on left/right orientation
             if (!App.isLeft)
@@ -236,82 +251,90 @@ namespace App_titude1
             return overlaps;
         }
 
-        #endregion
-
-        #region == Test moving button logic ==
-        //moving icons - code from https://github.com/xamarin/xamarin-forms-book-samples 
-
-        static readonly TimeSpan duration = TimeSpan.FromSeconds(1);        
-
-        Random random = new Random();
-        Point startPoint;
-        Point animationVector;
-        DateTime startTime;
-        Button button = null;
-
-        private void OnButtonClicked(object sender, EventArgs args)
+        //shake frame (vertical)
+        async void ShakeFrameWhenTapped(object sender)
         {
-            button = (Button)sender;
-            View container = (View)button.Parent;
+            Frame shake = (Frame)sender;
+            uint timeout = 50;
+            double startPosition = shake.TranslationY;
 
-            // The start of the animation is the current Translation properties.
-            startPoint = new Point(button.TranslationX, button.TranslationY);
-            //startPoint1 = new Point(container.AnchorX, container.AnchorY);
-            //startPoint2 = new Point(container.AnchorX, container.AnchorY);
-            //startPoint3 = new Point(container.AnchorX, container.AnchorY);
+            await shake.TranslateTo(0, -15, timeout);
 
-            // The end of the animation is a random point.
-            //double endX = (random.NextDouble() - 0.5) * (container.Width - button.Width);
-            double endX = -container.Width + button.Width;
+            await shake.TranslateTo(0, 15, timeout);
 
-            // Create a vector from start point to end point.
-            animationVector = new Point(endX - startPoint.X, 0); // , endY - startPoint.Y);
+            await shake.TranslateTo(0, -10, timeout);
 
-            // Save the animation start time.
-            startTime = DateTime.Now;
-          
-            //// Get the elapsed time from the beginning of the animation.
-            //TimeSpan elapsedTime = DateTime.Now - startTime;
+            await shake.TranslateTo(0, 10, timeout);
 
-            //// Normalize the elapsed time from 0 to 1.
-            //double t = Math.Max(0, Math.Min(1, 3));
+            await shake.TranslateTo(0, -5, timeout);
 
-            //// Calculate the new translation based on the animation vector.
-            //button.TranslationX = startPoint.X + t * animationVector.X;
+            await shake.TranslateTo(0, 5, timeout);
+
+            shake.TranslationY = startPosition;
 
         }
-
-        public bool OnTimerTick()
-        {
-            // Get the elapsed time from the beginning of the animation.
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-
-            // Normalize the elapsed time from 0 to 1.
-            double t = .05;
-            //Math.Max(0, Math.Min(1, elapsedTime.TotalMilliseconds / duration.TotalMilliseconds));
-
-            // Calculate the new translation based on the animation vector.
-            //if (App.isLeft)
-            //{
-            //    btnIconLEFT.TranslationX = startPoint.X + t * animationVector.X;
-            //}
-            //else
-            //{
-            //    btnIconRIGHT.TranslationX = startPoint.X + t * animationVector.X;
-            //}
-            
-            return true;
-        }
-
         #endregion
 
-        #region == NEW button move logic
-        private void SetIconsMovingState(bool startAnimation)//, bool cancelButtonState
+        #region == Icon Move Logic ==
+        // Handle Round beginning and set animations and timers in motion
+        private void BtnBegin_Clicked(object sender, EventArgs e)
+        {
+            //Set round time
+            round = 60;
+            //roundTimer.EndInit(); //end, close, dispose timer to fix bug? no joy
+
+            //populate the first sum
+            PopulateAritLabel();
+
+            //Set timer label if left/right
+            if (!App.isLeft) lblGameTimer_R.Text = "Time: " + round;
+            else lblGameTimer_L.Text = "Time: " + round;
+
+            //Update round timer label
+            roundTimer.Start();
+            roundTimer.Interval = 1000;
+            roundTimer.Elapsed += RoundTimer_Elapsed;
+
+            //Hide begin button while round in progress
+            btnBegin.IsEnabled = false;
+            btnBegin.IsVisible = false;
+
+            //Start Icons moving and start timer to manage call upon each interval
+            SetIconsMovingState(true);
+            StartButtonAnimation();
+            iconAnimationTimer.Start();
+            iconAnimationTimer.Interval = 10000;
+            iconAnimationTimer.Elapsed += IconAnimationTimer_Elapsed;
+
+            //*Default while working on timer for letter labels*
+            //SetLetterStrings();
+
+            //Timer to manage letter prompt
+            letterPromptTimer.Start();
+            letterPromptTimer.Interval = 5000;
+            //letterPromptTimer.Elapsed += LetterPromptTimer_Elapsed;  
+            if (round < 55)
+            {
+                letterPromptTimer.Stop();
+            }
+
+            //Timer to manage letter buttons
+            if (round < 40 && round > 35)
+            {
+                letterButtonTimer.Start();
+                letterButtonTimer.Interval = 5000;
+                //letterButtonTimer.Elapsed += LetterButtonTimer_Elapsed;
+            }
+            //letterButtonTimer.Stop();
+        }
+
+        //On off switch for moving Icons
+        private void SetIconsMovingState(bool startAnimation)
         {
             iconsMoving = startAnimation;
         }
 
-
+        //Start icons moving 
         async void StartButtonAnimation()
         {
             //get buttons - to do: set bool to get left/right buttons
@@ -367,59 +390,10 @@ namespace App_titude1
                 {
                     isCancelled = await y.TranslateTo(startPointY.X, 0, 100);
                 }
-            }//while true     
+            }     
         }
 
-        // Handle Round beginning and set animations and timers in motion
-        private void BtnBegin_Clicked(object sender, EventArgs e)
-        {
-            round = 60;
-
-            if (!App.isLeft) lblGameTimer_R.Text = "Time: " + round;
-            else lblGameTimer_L.Text = "Time: " + round;
-
-            // timer to update round timer label
-            roundTimer.Start();
-            roundTimer.Interval = 1000;
-            roundTimer.Elapsed += RoundTimer_Elapsed;
-            
-            //hide begin button while round in progress
-            btnBegin.IsEnabled = false;
-            btnBegin.IsVisible = false;
-
-            //timer to manage icons moving
-            SetIconsMovingState(true);
-            StartButtonAnimation();
-            iconAnimationTimer.Start();
-            iconAnimationTimer.Interval = 10000;
-            iconAnimationTimer.Elapsed += IconAnimationTimer_Elapsed;
-
-            //default in case everything breaks with the timer elapsed
-            bntColourTL.Text = lettersArray[0];
-            bntColourTR.Text = lettersArray[1];
-            bntColourBL.Text = lettersArray[2];
-            bntColourBR.Text = lettersArray[3];
-            Random random = new Random();
-            lblLetterPrompt.Text = lettersArray[random.Next(0, 4)];
-
-            //timers to manage letter game
-            letterPromptTimer.Start();
-            letterPromptTimer.Interval = 5000;
-            //letterPromptTimer.Elapsed += LetterPromptTimer_Elapsed;  
-            if (round < 55 )
-            {
-                letterPromptTimer.Stop();
-            }
-
-            if (round < 40 && round > 35)
-            {
-                letterButtonTimer.Start();
-                letterButtonTimer.Interval = 5000;
-                //letterButtonTimer.Elapsed += LetterButtonTimer_Elapsed;
-            }
-            letterButtonTimer.Stop();
-        }
-
+        // == Timer Elapsed Methods == //
         private void LetterButtonTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
@@ -430,7 +404,7 @@ namespace App_titude1
                 bntColourBR.Text = lettersArray[3];
             });
         }
-
+        //Populate LetterPrompt at interval
         private void LetterPromptTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Random random = new Random();
@@ -444,7 +418,7 @@ namespace App_titude1
                
             });
         }
-
+        //Animate Icons at interval
         private void IconAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
@@ -467,8 +441,9 @@ namespace App_titude1
             //allows animation on main thread
             Device.BeginInvokeOnMainThread(() =>
             {
-                 --round;
-                if (round == 0)
+                round--;
+
+                if (round <= 0)
                 {
                     roundTimer.Stop();
                     btnBegin.IsEnabled = true;
@@ -482,28 +457,6 @@ namespace App_titude1
            
         }
         #endregion
-        //shake button - not in use
-        async void BtnShake_Clicked(object sender, EventArgs e)
-        {
-            Button shake = (Button)sender;
-            uint timeout = 50;
-
-            await shake.TranslateTo(-15, 0, timeout);
-
-            await shake.TranslateTo(15, 0, timeout);
-
-            await shake.TranslateTo(-10, 0, timeout);
-
-            await shake.TranslateTo(10, 0, timeout);
-
-            await shake.TranslateTo(-5, 0, timeout);
-
-            await shake.TranslateTo(5, 0, timeout);
-
-            shake.TranslationX = 0;
-
-        }
-
         #endregion
 
     }
