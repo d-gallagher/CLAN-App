@@ -20,7 +20,7 @@ namespace App_titude1
         Timer letterPromptTimer = new Timer();
         //True if icons are moving
         bool iconsMoving = false;
-        ////array of lettergame strings
+        //array of lettergame strings
         string[] lettersArray;
 
         public GamePage ()
@@ -114,7 +114,7 @@ namespace App_titude1
         }
         #endregion
 
-        #region *********numberGame Logic*********
+        #region == NumberGame Logic ==
         private int GenAddPromlem()
         {
             Random random = new Random();
@@ -135,6 +135,7 @@ namespace App_titude1
             lblArithBox.Text = a + " - " + b + ": ";
             return answer;
         }
+
         private int GenMultPromlem()
         {
             Random random = new Random();
@@ -185,12 +186,16 @@ namespace App_titude1
             }
 
             bool overlap = DoesIconOverlapFrame(frame, b);
+            ShakeButtonWhenTapped(b);
 
             if (overlap)
             {
                 lblLetterPrompt.Text = "Red Overlaps!";
+                Console.WriteLine("Got Collision");
             }
-            else lblLetterPrompt.Text = "RedTapped!";
+
+            Console.WriteLine("Tapped");
+            //else lblLetterPrompt.Text = "RedTapped!";
         }
 
         private void YELLOW_TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -213,14 +218,17 @@ namespace App_titude1
             if (overlap)
             {
                 lblLetterPrompt.Text = "Yellow Overlaps!";
+                Console.WriteLine("Got Collision");
             }
-            else lblLetterPrompt.Text = "YellowTapped!";
+            //else lblLetterPrompt.Text = "YellowTapped!";
+            Console.WriteLine("Tapped");
         }
 
         private void GREEN_TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             Frame frame = (Frame)sender;
             ShakeFrameWhenTapped(frame);
+            
             Button b;
             //set button depending on left/right orientation
             if (!App.isLeft)
@@ -237,21 +245,23 @@ namespace App_titude1
             if (overlap)
             {
                 lblLetterPrompt.Text = "Green Overlaps!";
+                Console.WriteLine("Got Collision");
             }
-            else lblLetterPrompt.Text = "GreenTapped!";
+            Console.WriteLine("Tapped");
+            //else lblLetterPrompt.Text = "GreenTapped!";
         }
 
         //return true if icon overlaps a frame when tapped
         public bool DoesIconOverlapFrame(Frame frame, Button button)
         {
-            Point btn;
+            Point btn;            
 
             //set bounds of buttons
-            btn = new Point(button.X, button.Y);
+            btn = new Point(button.TranslationX, button.TranslationY);
 
             //check if overlapping w/frame when frame is tapped
             bool overlaps = frame.Bounds.Contains(btn);
-
+            
             return overlaps;
         }
 
@@ -285,7 +295,7 @@ namespace App_titude1
         {
             //Set round time
             round = 60;
-            //roundTimer.EndInit(); //end, close, dispose timer to fix bug? no joy
+            //roundTimer. //end, close, dispose timer to fix bug? no joy
 
             //populate the first sum
             PopulateAritLabel();
@@ -457,7 +467,35 @@ namespace App_titude1
            
         }
         #endregion
+
         #endregion
 
+        private void BtnRIcon_R_Clicked(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            ShakeButtonWhenTapped(b);
+
+        }
+        async void ShakeButtonWhenTapped(object sender)
+        {
+            Button shake = (Button)sender;
+            uint timeout = 50;
+            double startPosition = shake.TranslationY;
+
+            await shake.TranslateTo(0, -15, timeout);
+
+            await shake.TranslateTo(0, 15, timeout);
+
+            await shake.TranslateTo(0, -10, timeout);
+
+            await shake.TranslateTo(0, 10, timeout);
+
+            await shake.TranslateTo(0, -5, timeout);
+
+            await shake.TranslateTo(0, 5, timeout);
+
+            shake.TranslationY = startPosition;
+
+        }
     }
 }

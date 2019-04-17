@@ -1,0 +1,5 @@
+﻿[
+{"Name":"Total Games Played", "Comment":"0"},
+{"Name":"Total Time Played", "Comment":"0"},
+{"Name":"Top Game Played", "Comment":"0"}
+]

@@ -11,7 +11,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" 
-                              Detail = "{Binding Comment}" />
+                              Detail="{Binding Comment}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
